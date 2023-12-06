@@ -3,25 +3,57 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --c-shark: 27 29 31;
+  --c-shark-light: 40 43 48;
+  --c-pale-sky: 108 114 127;
+  --c-iron: 210 213 218;
+  --c-cornflower-blue: 78 128 238;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @apply bg-shark font-semibold text-pale-sky
+}
+
+h1 {
+  @apply text-[32px] leading-8 font-semibold
+}
+
+b {
+  @apply text-sm leading-[0.875rem] font-bold
+}
+
+small, label, legend, thead {
+  @apply text-xs leading-3
+}
+
+thead {
+  @apply border-b-2 border-shark-light
+}
+
+th {
+  @apply pb-4
+}
+
+td {
+  @apply pt-4 text-iron
+}
+
+th, td {
+  @apply text-start font-normal
+}
+
+small {
+  @apply font-bold
+}
+
+select, input {
+  @apply text-iron text-sm leading-[0.875rem] placeholder:text-pale-sky
+}
+
+select {
+  @apply bg-shark
+}
+
+input {
+  @apply bg-transparent
 }

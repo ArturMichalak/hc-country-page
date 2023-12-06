@@ -1,20 +1,25 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        hero: "url('../public/hero-image-wr.jpg')",
+        done: "url('../public/done-round.svg')",
+      },
+      colors: {
+        shark: "rgb(var(--c-shark) / <alpha-value>)",
+        "shark-light": "rgb(var(--c-shark-light) / <alpha-value>)",
+        "pale-sky": "rgb(var(--c-pale-sky) / <alpha-value>)",
+        iron: "rgb(var(--c-iron) / <alpha-value>)",
+        "cornflower-blue": "rgb(var(--c-cornflower-blue) / <alpha-value>)",
       },
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;
