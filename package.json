@@ -1,6 +1,6 @@
 {
   "name": "hc-country-page",
-  "description": "Data about countries around the world.",
+  "description": "Database of countries around the world.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
