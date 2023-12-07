@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import _ from "lodash";
 import { useRouter } from "next/navigation";
@@ -6,6 +6,7 @@ import { MouseEventHandler } from "react";
 
 import { MainProps } from "@/fragments/main";
 import { Country, CountryDetails } from "@/helpers/sort";
+import Link from "next/link";
 
 export interface DetailsProps extends MainProps {
   country: CountryDetails;
@@ -17,19 +18,16 @@ export default function Details({ country, countries }: DetailsProps) {
     country?: Country;
   }
 
-  const onPreviewClick: (country: string) => MouseEventHandler<HTMLLIElement> =
-    (country: string) => (e) => {
-      push(`/${_.kebabCase(country)}`, { shallow: true });
-    };
-
   const CountryPreview = ({ country }: CountryPreviewProps) => {
     return country ? (
-      <li
-        className="flex flex-col cursor-pointer"
-        onClick={onPreviewClick(country.name.common || country.name.official)}
-      >
-        <span className="leading-[60px] text-[80px]">{country.flag}</span>
-        {country.name.common || country.name.official}
+      <li>
+        <Link
+          className="flex flex-col cursor-pointer"
+          href={`/${_.kebabCase(country.name.common || country.name.official)}`}
+        >
+          <span className="leading-[60px] text-[80px]">{country.flag}</span>
+          {country.name.common || country.name.official}
+        </Link>
       </li>
     ) : null;
   };
@@ -56,10 +54,12 @@ export default function Details({ country, countries }: DetailsProps) {
           </span>
         </li>
         <li className="min-h-[52px] px-4 flex items-center rounded-xl bg-shark-light">
-          <span>
+          <span className="pr-5 mr-5 border-r border-r-shark">
             Area (km<sup>2</sup>)
           </span>
-          <span>{country.area.toLocaleString("en-US")}</span>
+          <span className="text-iron">
+            {country.area.toLocaleString("en-US")}
+          </span>
         </li>
       </ul>
       <ul className="w-full">

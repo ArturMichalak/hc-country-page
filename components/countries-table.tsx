@@ -1,10 +1,10 @@
 "use client";
 
-import _ from 'lodash';
-import { useRouter } from 'next/navigation';
-import { MouseEventHandler } from 'react';
+import _ from "lodash";
+import { useRouter } from "next/navigation";
+import { KeyboardEventHandler, MouseEventHandler } from "react";
 
-import { MainProps } from '@/fragments/main';
+import { MainProps } from "@/fragments/main";
 
 export interface CountriesTableProps extends MainProps {
   rev: boolean;
@@ -17,6 +17,12 @@ function CountriesTable({ sortFn, countries, rev }: CountriesTableProps) {
     (country: string) => (e) => {
       push(`/${_.kebabCase(country)}`, { shallow: true });
     };
+
+  const onKeyDown: (
+    country: string
+  ) => KeyboardEventHandler<HTMLTableRowElement> = (country: string) => (e) => {
+    e.key === "Enter" && push(`/${_.kebabCase(country)}`, { shallow: true });
+  };
 
   const shownCountries =
     (Array.isArray(countries) &&
@@ -41,9 +47,11 @@ function CountriesTable({ sortFn, countries, rev }: CountriesTableProps) {
           {shownCountries.map(({ flag, name, population, area, region }) => (
             <tr
               role="link"
-              className="h-9 py-px hover:underline cursor-pointer"
+              tabIndex={0}
               key={name.official}
+              className="h-9 py-px hover:underline cursor-pointer"
               onClick={onClick(name.common || name.official)}
+              onKeyDown={onKeyDown(name.common || name.official)}
             >
               <td>
                 <i className="inline-block not-italic text-[50px] leading-[38px]">
