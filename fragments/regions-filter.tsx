@@ -1,6 +1,6 @@
 import { ChangeEventHandler, memo } from "react";
 
-import ToggleChip from "../toggle-chip";
+import ToggleChip from "@/components/toggle-chip";
 
 interface RegionsFilterProps {
   toggleState: { [key: string]: boolean };

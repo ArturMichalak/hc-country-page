@@ -1,5 +1,6 @@
-import { ChangeEventHandler, memo } from "react";
-import Checkbox from "../checkbox";
+import { ChangeEventHandler, memo } from 'react';
+
+import Checkbox from '@/components/checkbox';
 
 interface StatusFilterProps {
   toggleState: { [key: string]: boolean };

@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  useEffect,
   ChangeEventHandler,
   MouseEventHandler,
   useCallback,
@@ -10,18 +9,14 @@ import {
   useState,
 } from "react";
 
-import sort, { Country } from "@/helpers/sort";
-import usePrevious from "@/utils/hooks/usePrevious";
-
-import CountriesTable, { CountriesTableProps } from "../countries-table";
-import Search from "../search";
-import RegionsFilter from "./regions-filter";
-import Sort from "./sort";
-import StatusFilter from "./status-filter";
+import CountriesTable from "@/components/countries-table";
+import Search from "@/components/search";
+import RegionsFilter from "@/fragments/regions-filter";
+import Sort from "@/fragments/sort";
+import StatusFilter from "@/fragments/status-filter";
+import sort, { Country, CountryProp } from "@/helpers/sort";
 
 export type SortType = "Population" | "Area" | "Region" | "Name";
-export type CountryProp = keyof Country;
-
 export const defaultSortKey: CountryProp = "population";
 
 const filtersLabels = {
@@ -29,9 +24,14 @@ const filtersLabels = {
   independent: "Independent",
 };
 
+export interface MainProps {
+  countries: Country[];
+}
+
 export default function Main({
   countries,
-}: Omit<CountriesTableProps, "onHeaderClickSort" | "rev">) {
+}: MainProps) {
+  const rev = useRef(false);
   const sortBy = useRef<CountryProp>(defaultSortKey);
   const regions = useRef({
     Americas: false,
@@ -54,8 +54,6 @@ export default function Main({
 
   const [shownCountriesPreload, setShownCountries] = useState(countries);
   const shownCountries = useDeferredValue(shownCountriesPreload);
-
-  const prev = usePrevious(sortBy.current, shownCountries);
 
   const filterCountries = useCallback((countries: Country[]) => {
     if (filters.current.independent)
@@ -94,8 +92,8 @@ export default function Main({
   );
 
   const onSortChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    sortBy.current = (e.target.value[0].toLowerCase() +
-      e.target.value.slice(1)) as CountryProp;
+    rev.current = false;
+    sortBy.current = e.target.value.toLowerCase() as CountryProp;
     setShownCountries([...sortCountries(shownCountriesPreload)]);
   };
 
@@ -114,24 +112,16 @@ export default function Main({
     setShownCountries([...sortCountries(filterCountries(countries))]);
   };
 
-  const [rev, setRev] = useState(false);
-
   const onHeaderClickSort: (
     propName: string
   ) => MouseEventHandler<HTMLTableCellElement> = (propName) => (e) => {
-    sortBy.current = (propName[0].toLowerCase() +
-      propName.slice(1)) as CountryProp;
+    const countryProp = propName as CountryProp;
+    if (sortBy.current === countryProp) rev.current = !rev.current;
+    else rev.current = false;
+    sortBy.current = countryProp;
 
     setShownCountries([...sortCountries(filterCountries(countries))]);
   };
-
-  useEffect(() => {
-    if (prev) {
-      if (prev === sortBy.current) setRev((r) => !r);
-      else setRev(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shownCountries]);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -156,9 +146,9 @@ export default function Main({
           />
         </form>
         <CountriesTable
-          rev={rev}
+          rev={rev.current}
           countries={shownCountries}
-          onHeaderClickSort={onHeaderClickSort}
+          sortFn={onHeaderClickSort}
         />
       </div>
     </div>

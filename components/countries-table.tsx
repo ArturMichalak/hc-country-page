@@ -1,24 +1,22 @@
 "use client";
 
-import { MouseEventHandler, useEffect, useState } from "react";
+import _ from 'lodash';
+import { useRouter } from 'next/navigation';
+import { MouseEventHandler } from 'react';
 
-import { Country } from "@/helpers/sort";
+import { MainProps } from '@/fragments/main';
 
-export interface CountriesTableProps {
-  countries: Country[];
+export interface CountriesTableProps extends MainProps {
   rev: boolean;
-  onHeaderClickSort: (
-    propName: string
-  ) => MouseEventHandler<HTMLTableCellElement>;
+  sortFn: (propName: string) => MouseEventHandler<HTMLTableCellElement>;
 }
 
-function CountriesTable({
-  onHeaderClickSort,
-  countries,
-  rev
-}: CountriesTableProps) {
-
-  const onClick: MouseEventHandler<HTMLTableRowElement> = (e) => {};
+function CountriesTable({ sortFn, countries, rev }: CountriesTableProps) {
+  const { push } = useRouter();
+  const onClick: (country: string) => MouseEventHandler<HTMLTableRowElement> =
+    (country: string) => (e) => {
+      push(`/${_.kebabCase(country)}`, { shallow: true });
+    };
 
   const shownCountries =
     (Array.isArray(countries) &&
@@ -31,12 +29,12 @@ function CountriesTable({
         <thead className="sticky top-0 bg-shark">
           <tr>
             <th>Flag</th>
-            <th onClick={onHeaderClickSort("name")}>Name</th>
-            <th onClick={onHeaderClickSort("population")}>Population</th>
-            <th onClick={onHeaderClickSort("area")}>
+            <th onClick={sortFn("name")}>Name</th>
+            <th onClick={sortFn("population")}>Population</th>
+            <th onClick={sortFn("area")}>
               Area (km<sup>2</sup>)
             </th>
-            <th onClick={onHeaderClickSort("region")}>Region</th>
+            <th onClick={sortFn("region")}>Region</th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +43,7 @@ function CountriesTable({
               role="link"
               className="h-9 py-px hover:underline cursor-pointer"
               key={name.official}
-              onClick={onClick}
+              onClick={onClick(name.common || name.official)}
             >
               <td>
                 <i className="inline-block not-italic text-[50px] leading-[38px]">
