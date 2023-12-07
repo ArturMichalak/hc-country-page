@@ -19,7 +19,7 @@ export default function Details({ country, countries }: DetailsProps) {
     return country ? (
       <li>
         <Link
-          className="flex flex-col cursor-pointer"
+          className="flex flex-col cursor-pointer outline-none focus:text-cornflower-blue"
           href={`/${_.kebabCase(country.name.common || country.name.official)}`}
         >
           <span className="leading-[60px] text-[80px]">{country.flag}</span>

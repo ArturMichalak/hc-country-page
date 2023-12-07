@@ -49,7 +49,7 @@ function CountriesTable({ sortFn, countries, rev }: CountriesTableProps) {
               role="link"
               tabIndex={0}
               key={name.official}
-              className="h-9 py-px hover:underline cursor-pointer"
+              className="h-9 py-px hover:underline cursor-pointer outline-none text-iron focus:text-cornflower-blue"
               onClick={onClick(name.common || name.official)}
               onKeyDown={onKeyDown(name.common || name.official)}
             >
