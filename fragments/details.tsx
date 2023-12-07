@@ -1,19 +1,16 @@
 "use client";
 
-import _ from "lodash";
-import { useRouter } from "next/navigation";
-import { MouseEventHandler } from "react";
+import _ from 'lodash';
+import Link from 'next/link';
 
-import { MainProps } from "@/fragments/main";
-import { Country, CountryDetails } from "@/helpers/sort";
-import Link from "next/link";
+import { MainProps } from '@/fragments/main';
+import { Country, CountryDetails } from '@/helpers/sort';
 
 export interface DetailsProps extends MainProps {
   country: CountryDetails;
 }
 
 export default function Details({ country, countries }: DetailsProps) {
-  const { push } = useRouter();
   interface CountryPreviewProps {
     country?: Country;
   }
@@ -42,7 +39,7 @@ export default function Details({ country, countries }: DetailsProps) {
         <h1 className="mt-8 mb-1 border-b border-transparent">
           {country.name.common || country.name.official}
         </h1>
-        {country.name.common && (
+        {country.name.common && country.name.common !== country.name.official && (
           <p className="font-normal">{country.name.official}</p>
         )}
       </header>
