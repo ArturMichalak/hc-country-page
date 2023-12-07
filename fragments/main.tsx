@@ -130,7 +130,7 @@ export default function Main({
           Found {shownCountries.length}{" "}
           {shownCountries.length !== 1 ? "countries" : "country"}
         </span>
-        <Search autoFocus value={search.current} onChange={onSearchChange} />
+        <Search value={search.current} onChange={onSearchChange} />
       </nav>
       <div className="flex-grow flex items-stretch">
         <form className="max-w-[260px] mr-8 flex flex-col gap-8">
